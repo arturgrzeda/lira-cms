@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "votes",
+  "info": {
+    "singularName": "vote",
+    "pluralName": "votes",
+    "displayName": "Głosy",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "participant": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::participant.participant"
+    },
+    "userIDparticipantID": {
+      "type": "uid",
+      "required": true,
+      "private": true
+    },
+    "score": {
+      "type": "integer",
+      "default": 0,
+      "required": true,
+      "max": 25,
+      "min": 0
+    }
+  }
+}

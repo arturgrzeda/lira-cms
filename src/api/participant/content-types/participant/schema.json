@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "participants",
+  "info": {
+    "singularName": "participant",
+    "pluralName": "participants",
+    "displayName": "Uczestnicy",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "competition": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::competition.competition",
+      "inversedBy": "participants"
+    }
+  }
+}
