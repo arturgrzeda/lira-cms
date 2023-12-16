@@ -29,6 +29,36 @@
       "relation": "oneToMany",
       "target": "api::participant.participant",
       "mappedBy": "competition"
+    },
+    "start_date": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "datetime"
+    },
+    "end_date": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "datetime"
+    },
+    "status": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "open",
+        "close"
+      ],
+      "default": "open",
+      "required": true
     }
   }
 }

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_repertoire_repertoires",
+  "info": {
+    "displayName": "repertoire",
+    "icon": "bulletList",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "song_1": {
+      "type": "text"
+    },
+    "song_2": {
+      "type": "text"
+    },
+    "song_3": {
+      "type": "text"
+    }
+  }
+}

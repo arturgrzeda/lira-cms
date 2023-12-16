@@ -20,6 +20,108 @@
       "relation": "manyToOne",
       "target": "api::competition.competition",
       "inversedBy": "participants"
+    },
+    "birthdate": {
+      "type": "date",
+      "required": true
+    },
+    "nationality": {
+      "type": "string",
+      "required": true
+    },
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "leading_teacher": {
+      "type": "string"
+    },
+    "university_school": {
+      "type": "string"
+    },
+    "recommendation": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "confirmation_of_payment": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "recording": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "videos",
+        "audios"
+      ]
+    },
+    "participant_declaration": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "repertoire": {
+      "displayName": "repertoire",
+      "type": "component",
+      "repeatable": true,
+      "component": "repertoire.repertoire",
+      "required": false,
+      "max": 4,
+      "min": 4
+    },
+    "artistic_cv": {
+      "type": "text",
+      "required": true
+    },
+    "accommodation": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "accept_rules_and_consent": {
+      "type": "boolean",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "not_verified",
+        "verified",
+        "rejected"
+      ],
+      "default": "not_verified",
+      "required": false
     }
   }
 }

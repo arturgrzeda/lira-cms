@@ -17,7 +17,7 @@
       "relation": "oneToOne",
       "target": "api::participant.participant"
     },
-    "userIDparticipantID": {
+    "participantIDvoterID": {
       "type": "uid",
       "required": true,
       "private": true
@@ -28,6 +28,11 @@
       "required": true,
       "max": 25,
       "min": 0
+    },
+    "voter": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

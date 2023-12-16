@@ -362,6 +362,178 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCompetitionCompetition extends Schema.CollectionType {
+  collectionName: 'competitions';
+  info: {
+    singularName: 'competition';
+    pluralName: 'competitions';
+    displayName: 'Konkurs (edycja)';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    participants: Attribute.Relation<
+      'api::competition.competition',
+      'oneToMany',
+      'api::participant.participant'
+    >;
+    start_date: Attribute.DateTime &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    end_date: Attribute.DateTime &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    status: Attribute.Enumeration<['open', 'close']> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<'open'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::competition.competition',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::competition.competition',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::competition.competition',
+      'oneToMany',
+      'api::competition.competition'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiParticipantParticipant extends Schema.CollectionType {
+  collectionName: 'participants';
+  info: {
+    singularName: 'participant';
+    pluralName: 'participants';
+    displayName: 'Uczestnicy';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String;
+    competition: Attribute.Relation<
+      'api::participant.participant',
+      'manyToOne',
+      'api::competition.competition'
+    >;
+    birthdate: Attribute.Date & Attribute.Required;
+    nationality: Attribute.String & Attribute.Required;
+    address: Attribute.String & Attribute.Required;
+    leading_teacher: Attribute.String;
+    university_school: Attribute.String;
+    recommendation: Attribute.Media;
+    photo: Attribute.Media;
+    confirmation_of_payment: Attribute.Media & Attribute.Required;
+    recording: Attribute.Media & Attribute.Required;
+    participant_declaration: Attribute.Media & Attribute.Required;
+    repertoire: Attribute.Component<'repertoire.repertoire', true> &
+      Attribute.SetMinMax<{
+        min: 4;
+        max: 4;
+      }>;
+    artistic_cv: Attribute.Text & Attribute.Required;
+    accommodation: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    accept_rules_and_consent: Attribute.Boolean & Attribute.Required;
+    email: Attribute.Email & Attribute.Required;
+    phone: Attribute.String & Attribute.Required;
+    status: Attribute.Enumeration<['not_verified', 'verified', 'rejected']> &
+      Attribute.DefaultTo<'not_verified'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::participant.participant',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::participant.participant',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiVoteVote extends Schema.CollectionType {
+  collectionName: 'votes';
+  info: {
+    singularName: 'vote';
+    pluralName: 'votes';
+    displayName: 'G\u0142osy';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    participant: Attribute.Relation<
+      'api::vote.vote',
+      'oneToOne',
+      'api::participant.participant'
+    >;
+    participantIDvoterID: Attribute.UID &
+      Attribute.Required &
+      Attribute.Private;
+    score: Attribute.Integer &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+        max: 25;
+      }> &
+      Attribute.DefaultTo<0>;
+    voter: Attribute.Relation<
+      'api::vote.vote',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::vote.vote', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::vote.vote', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -482,6 +654,50 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -587,7 +803,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -633,171 +848,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCompetitionCompetition extends Schema.CollectionType {
-  collectionName: 'competitions';
-  info: {
-    singularName: 'competition';
-    pluralName: 'competitions';
-    displayName: 'Konkurs (edycja)';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    participants: Attribute.Relation<
-      'api::competition.competition',
-      'oneToMany',
-      'api::participant.participant'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::competition.competition',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::competition.competition',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::competition.competition',
-      'oneToMany',
-      'api::competition.competition'
-    >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiParticipantParticipant extends Schema.CollectionType {
-  collectionName: 'participants';
-  info: {
-    singularName: 'participant';
-    pluralName: 'participants';
-    displayName: 'Uczestnicy';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    name: Attribute.String;
-    competition: Attribute.Relation<
-      'api::participant.participant',
-      'manyToOne',
-      'api::competition.competition'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::participant.participant',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::participant.participant',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiVoteVote extends Schema.CollectionType {
-  collectionName: 'votes';
-  info: {
-    singularName: 'vote';
-    pluralName: 'votes';
-    displayName: 'G\u0142osy';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    participant: Attribute.Relation<
-      'api::vote.vote',
-      'oneToOne',
-      'api::participant.participant'
-    >;
-    userIDparticipantID: Attribute.UID & Attribute.Required & Attribute.Private;
-    score: Attribute.Integer &
-      Attribute.Required &
-      Attribute.SetMinMax<{
-        min: 0;
-        max: 25;
-      }> &
-      Attribute.DefaultTo<0>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::vote.vote', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::vote.vote', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -808,15 +858,15 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'plugin::upload.file': PluginUploadFile;
-      'plugin::upload.folder': PluginUploadFolder;
-      'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
-      'plugin::users-permissions.role': PluginUsersPermissionsRole;
-      'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::competition.competition': ApiCompetitionCompetition;
       'api::participant.participant': ApiParticipantParticipant;
       'api::vote.vote': ApiVoteVote;
+      'plugin::upload.file': PluginUploadFile;
+      'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
+      'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
+      'plugin::users-permissions.role': PluginUsersPermissionsRole;
+      'plugin::users-permissions.user': PluginUsersPermissionsUser;
     }
   }
 }
