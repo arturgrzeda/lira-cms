@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_repertoire_repertoire_singles",
+  "info": {
+    "displayName": "repertoire_single",
+    "icon": "layer",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "song_1": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -13,7 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "competition": {
       "type": "relation",
@@ -42,7 +43,7 @@
     "recommendation": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files"
@@ -51,7 +52,7 @@
     "photo": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images"
       ]
@@ -74,31 +75,12 @@
         "audios"
       ]
     },
-    "participant_declaration": {
-      "type": "media",
-      "multiple": false,
-      "required": true,
-      "allowedTypes": [
-        "images",
-        "files"
-      ]
-    },
-    "repertoire": {
-      "displayName": "repertoire",
-      "type": "component",
-      "repeatable": true,
-      "component": "repertoire.repertoire",
-      "required": false,
-      "max": 4,
-      "min": 4
-    },
     "artistic_cv": {
       "type": "text",
       "required": true
     },
     "accommodation": {
       "type": "boolean",
-      "default": false,
       "required": true
     },
     "accept_rules_and_consent": {
@@ -122,6 +104,13 @@
       ],
       "default": "not_verified",
       "required": false
+    },
+    "repertoire_2": {
+      "type": "dynamiczone",
+      "components": [
+        "repertoire.repertoire",
+        "repertoire.repertoire-single"
+      ]
     }
   }
 }

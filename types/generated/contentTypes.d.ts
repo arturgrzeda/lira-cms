@@ -446,7 +446,7 @@ export interface ApiParticipantParticipant extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    name: Attribute.String;
+    name: Attribute.String & Attribute.Required;
     competition: Attribute.Relation<
       'api::participant.participant',
       'manyToOne',
@@ -457,25 +457,20 @@ export interface ApiParticipantParticipant extends Schema.CollectionType {
     address: Attribute.String & Attribute.Required;
     leading_teacher: Attribute.String;
     university_school: Attribute.String;
-    recommendation: Attribute.Media;
-    photo: Attribute.Media;
+    recommendation: Attribute.Media & Attribute.Required;
+    photo: Attribute.Media & Attribute.Required;
     confirmation_of_payment: Attribute.Media & Attribute.Required;
     recording: Attribute.Media & Attribute.Required;
-    participant_declaration: Attribute.Media & Attribute.Required;
-    repertoire: Attribute.Component<'repertoire.repertoire', true> &
-      Attribute.SetMinMax<{
-        min: 4;
-        max: 4;
-      }>;
     artistic_cv: Attribute.Text & Attribute.Required;
-    accommodation: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
+    accommodation: Attribute.Boolean & Attribute.Required;
     accept_rules_and_consent: Attribute.Boolean & Attribute.Required;
     email: Attribute.Email & Attribute.Required;
     phone: Attribute.String & Attribute.Required;
     status: Attribute.Enumeration<['not_verified', 'verified', 'rejected']> &
       Attribute.DefaultTo<'not_verified'>;
+    repertoire_2: Attribute.DynamicZone<
+      ['repertoire.repertoire', 'repertoire.repertoire-single']
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
