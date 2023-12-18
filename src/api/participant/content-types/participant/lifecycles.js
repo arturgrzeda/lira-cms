@@ -11,11 +11,28 @@ module.exports = {
           from: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam <onboarding@resend.dev>',
           to: [result.email],
           subject: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam',
-          html: '<h1>Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam</h1>',
+          html: '<h1>Dziękujemy za zgłoszenie</h1>',
         });
         console.log(data)
       } catch(err) {
           console.log(err);
       }
+  },
+  async afterUpdate(event) {
+    const { result } = event;
+    console.log(result)
+    if (result.status === 'verified') {
+      try{
+        const data = await resend.emails.send({
+          from: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam <onboarding@resend.dev>',
+          to: [result.email],
+          subject: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam',
+          html: '<h1>Zgłoszenie przyjęte</h1>',
+        });
+        console.log(data)
+      } catch(err) {
+          console.log(err);
+      }
+    }
   }
 }
