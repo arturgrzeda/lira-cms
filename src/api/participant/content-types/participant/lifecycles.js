@@ -11,7 +11,7 @@ module.exports = {
           from: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam <onboarding@resend.dev>',
           to: [result.email],
           subject: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam',
-          html: '<h1>Dziękujemy za zgłoszenie</h1>',
+          html: '<h2>Dziękujemy za zgłoszenie</h2><p>Twoje zgłoszenie oczekuje na weryfikację, potwierdzenie weryfikacji otrzymasz w kolejnym mailu</p><p>Zespół, Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam</p>',
         });
         console.log(data)
       } catch(err) {
@@ -27,7 +27,7 @@ module.exports = {
           from: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam <onboarding@resend.dev>',
           to: [result.email],
           subject: 'Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam',
-          html: '<h1>Zgłoszenie przyjęte</h1>',
+          html: '<h2>Zgłoszenie przyjęte</h2><p>Twoje zgłoszenie zostało zewryfikowane i przyjęte, gratulacje.</p><p>Zespół, Miedzynarodowy Konkurs Pianistyczny Gabriela Weiss in Memoriam</p>',
         });
         console.log(data)
       } catch(err) {
